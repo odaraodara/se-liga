@@ -4,7 +4,7 @@ const usuarioSchema = new Schema({
     nome : {type: String, require: true},
     email : {type: String, require: true},
     senha : {type: String, require: true},
-    tipoDeUsuario : {type: Boolean, require: true}
+    empresa : {type: Boolean, require: true}
 });
 
 export const usuarioModel = (mongoose.models.usuarios || 
