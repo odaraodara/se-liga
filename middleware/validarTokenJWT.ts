@@ -4,6 +4,8 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 export const validarTokenJWT = (handler : NextApiHandler) =>
     async (req : NextApiRequest, res : NextApiResponse) =>{
 
+        try {
+
         const {CHAVE_JWT} = process.env;
         if(!CHAVE_JWT) {
             return res.status(500).json({erro: 'ENV JWT não informada'});
@@ -35,5 +37,11 @@ export const validarTokenJWT = (handler : NextApiHandler) =>
 
             req.query.userId = decoded._id;
         }
+
+        } catch (e) {
+           return res.status(401).json({erro: 'não foi possível validar o token de acesso'});  
+        }
+
+        
         return handler (req, res);
     }
