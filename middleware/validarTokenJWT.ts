@@ -34,8 +34,9 @@ export const validarTokenJWT = (handler : NextApiHandler) =>
             if (!req.query){
                 req.query = {};
             }
-
+            console.log(decoded)
             req.query.userId = decoded._id;
+            req.query.empresa = decoded.empresa;
         }
 
         } catch (e) {

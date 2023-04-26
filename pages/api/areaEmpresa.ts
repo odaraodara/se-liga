@@ -9,20 +9,28 @@ import {vagasModel} from '../../models/vagasModel';
 
 
 
+
     const endpointAreaEmpresa = nc()
 
-    .get (async (req : NextApiRequest, res: NextApiResponse) => {
+    .get (async (req : NextApiRequest, res: NextApiResponse) => { 
+        
 
-        const vaga = await vagasModel.find();
+        const {userId} = req.query
+        const vaga = await vagasModel.find({idEmpresa : userId});
+        
         return res.status(200).json({data : vaga})
-    
-    })
+
+        
+       }
+
+    )
 
        
     .post( async (req : NextApiRequest, res: NextApiResponse) => {
 
         try {
             const vagas = req.body as requisicaoVagas
+            const {userId} = req.query
 
         if (!vagas.titulo|| vagas.titulo === "") {
             return res.status(400).json({erro: "O campo do título é obrigatório." });
@@ -41,12 +49,15 @@ import {vagasModel} from '../../models/vagasModel';
           }    
 
         const novaVaga = {
+            
+            idEmpresa: userId,
             titulo: vagas.titulo,
             local: vagas.local,
             descricao : vagas.descricao,
             requisitos : vagas.requisitos,
             dataInclusao : new Date().toISOString()
         }; 
+            
             await vagasModel.create(novaVaga);
 
           return res.status(201).json({ msg: "Vaga cadastrada com sucesso." }); 

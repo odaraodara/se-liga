@@ -22,7 +22,9 @@ const endpointLogin = nc()
         if (usuarioLogin && usuarioLogin.length > 0){
             const usuarioEncontrado = usuarioLogin[0]
 
-            const token = jwt.sign({_id : usuarioEncontrado._id}, CHAVE_JWT);
+            const token = jwt.sign({_id : usuarioEncontrado._id,empresa: usuarioEncontrado.empresa}, CHAVE_JWT);
+
+            console.log (usuarioEncontrado)
             
             return res.status(200).json({
                 nome : usuarioEncontrado.nome,
